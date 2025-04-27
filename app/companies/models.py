@@ -2,12 +2,12 @@ import uuid
 from datetime import datetime
 from providers.database import Base
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import String, Enum as SqlALchemyEnum, DateTime, Text, ForeignKey
+from sqlalchemy import String, Enum as SqlALchemyEnum, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from enum import Enum
 from typing import List
 from app.categories.models import Category
-from app.products.models import Product
+from app.headquarters.models import Headquarter
 
 class StatusType(str, Enum):
     ACTIVE = "ACTIVE"
@@ -27,6 +27,6 @@ class Company(Base):
     tax_regime: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(SqlALchemyEnum(StatusType), nullable=False, default=StatusType.ACTIVE)
 
-    users: Mapped[List["User"]] = relationship("User", back_populates="company")
     categories: Mapped[List["Category"]] = relationship("Category", back_populates="company")
+    headquarters: Mapped[List["Headquarter"]] = relationship("Headquarter", back_populates="company")
     products: Mapped[List["Product"]] = relationship("Product", back_populates="company")

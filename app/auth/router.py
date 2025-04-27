@@ -34,7 +34,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
     if user_id is None:
         UnauthorizedUser()
-    
+
     access_token = create_access_token({"sub": str(user_id)})
     refresh_token = create_refresh_token({"sub": str(user_id)})
 
@@ -46,7 +46,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
             "name": user.name,
             "lastname": user.lastname,
             "avatar": user.avatar,
-            "email": user.email
+            "email": user.email,
+            "headquarter": user.headquarter.name
         }
     }
 
@@ -68,7 +69,7 @@ def forgot_password(email: str):
 
     forgot_token = create_forgot_password_token({ "sub": str(user.id)})
     email_send = send_email_service(
-        forgot_token, 
+        forgot_token,
         user.email,
         user=f"{user.name} {user.lastname}"
     )
@@ -95,5 +96,5 @@ def get_infor_user(id: str = Depends(get_current_user)):
         "lastname": user.lastname,
         "avatar": user.avatar,
         "email": user.email,
-        "company": user.company.company_name
+        "headquarter": user.headquarter.name
     }

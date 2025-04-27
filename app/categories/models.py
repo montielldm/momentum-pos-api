@@ -7,8 +7,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from enum import Enum
 from typing import List
 
-from app.products.models import Product
-
 class StatusType(str, Enum):
     ACTIVE = "ACTIVE"
     INACTIVE = "INACTIVE"

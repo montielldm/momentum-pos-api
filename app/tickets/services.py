@@ -7,8 +7,6 @@ from providers.database import ConnectDatabase
 from app.activities.models import Ticket, Activity, TypeEnum, StatusTicket
 from sqlalchemy.exc import SQLAlchemyError
 from app.customers.models import Customer
-from fastapi import HTTPException
-from app.users.models import User
 from app.products.models import Product
 from app.products.exceptions import ProductNotFound
 from app.tickets.exceptions import (
@@ -34,7 +32,7 @@ def get_ticket_by_id_service(id: str):
         stmt = session.get(Ticket, id)
         if not stmt:
             TicketNotFound()
-            
+
         return stmt
     except (SQLAlchemyError, ValueError) as e:
         session.rollback()
@@ -43,7 +41,7 @@ def get_ticket_by_id_service(id: str):
 def confirm_ticket_service(data: ConfirmSale, user_id: str):
     try:
         ticket_number = generate_ticket_number()
-        
+
         customer: Customer | None = None
         if not data.customer:
             customer = session.query(Customer).filter_by(identification="0000000000").first()
@@ -72,11 +70,11 @@ def confirm_ticket_service(data: ConfirmSale, user_id: str):
 
             if not product:
                 ProductNotFound()
-            
+
             new_stock = product.current_quantity - item.quantity
             if new_stock < 0:
                 InsufficientStock()
-             
+
             activity = Activity(
                 quantity=item.quantity,
                 stock_before=product.current_quantity,
@@ -95,7 +93,7 @@ def confirm_ticket_service(data: ConfirmSale, user_id: str):
 
         session.add_all(activities)
         session.commit()
-        
+
         session.refresh(ticket)
 
         return ticket

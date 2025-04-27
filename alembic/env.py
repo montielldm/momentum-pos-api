@@ -29,6 +29,8 @@ from app.activities.models import Ticket, Activity
 from app.categories.models import Category
 from app.companies.models import Company
 from app.products.models import Product
+from app.tables.models import RestaurantTable
+from app.headquarters.models import Headquarter
 
 target_metadata = Base.metadata
 

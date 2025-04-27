@@ -5,6 +5,7 @@ from app.auth.router import auth
 from app.products.router import products
 from app.tickets.router import tickets
 from app.activities.router import activities
+from app.tables.router import tables
 
 app = FastAPI()
 
@@ -24,4 +25,5 @@ app.add_middleware(
 app.include_router(auth)
 app.include_router(tickets)
 app.include_router(products)
+app.include_router(tables)
 app.include_router(activities)

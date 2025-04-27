@@ -5,7 +5,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import String, Enum as SqlALchemyEnum, DateTime, Text, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from enum import Enum
-from app.companies.models import Company
 from typing import List
 from app.activities.models import Activity, Ticket
 
@@ -35,9 +34,8 @@ class User(Base):
     status: Mapped[str] = mapped_column(SqlALchemyEnum(StatusType), nullable=False, default=StatusType.ACTIVE)
     password: Mapped[str] = mapped_column(Text, nullable=True)
 
-    company_id: Mapped[str] = mapped_column(ForeignKey("companies.id"))
-    company: Mapped["Company"] = relationship(back_populates="users")
+    headquarter_id: Mapped[str] = mapped_column(ForeignKey("headquarters.id"))
+    headquarter: Mapped["Headquarter"] = relationship(back_populates="users")
 
     activities: Mapped[List["Activity"]] = relationship(back_populates="user")
-
     tickets: Mapped[List["Ticket"]] = relationship(back_populates="user")

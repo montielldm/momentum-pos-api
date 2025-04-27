@@ -1,8 +1,10 @@
+from csv import excel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
+from contextlib import contextmanager
 
 # We load the environment variables
 load_dotenv()
@@ -37,6 +39,16 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 class ConnectDatabase:
     __instance = None

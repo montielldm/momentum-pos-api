@@ -6,6 +6,7 @@ from sqlalchemy import String, Enum as SqlALchemyEnum, DateTime, Text, ForeignKe
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from enum import Enum
 from typing import List
+from app.companies.models import Company
 
 class StatusType(str, Enum):
     ACTIVE = "ACTIVE"
